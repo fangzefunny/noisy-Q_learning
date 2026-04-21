@@ -1,0 +1,11 @@
+matplotlib==3.9.4
+numpy==1.24
+pandas==2.0
+pingouin==0.5.5
+pybads==1.0.6
+scipy==1.13.1
+seaborn==0.13.2
+tqdm==4.67.1
+git+https://github.com/fangzefunny/stats.git
+git+https://github.com/fangzefunny/viz.git
+git+https://github.com/fangzefunny/mfit.git
