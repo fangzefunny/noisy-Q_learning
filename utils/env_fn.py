@@ -118,7 +118,7 @@ class restless_bandit:
         rng: np.random.Generator,
         r_min: float=0.01,
         r_max: float=0.99,
-    ) -> np.ndarray:
+        ) -> np.ndarray:
 
         # sample the reward based on the current r_mean 
         r_sampled = np.empty((r_means.shape[0], r_means.shape[1]), dtype=float)
