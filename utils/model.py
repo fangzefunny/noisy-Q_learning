@@ -18,8 +18,8 @@ class model_config:
 class noisy_q_learning:
     name = "noisy_q_learning"
     p_names = ["alpha", "eta", "beta", "sigma"]
-    p_bnds  = [(0.0, .99), (0.0, 50.0), (0.0, 50.0), (0.0, 1.0)]
-    p_pbnds = [(0.1, 0.5), (0.5, 2.0), (0.5, 5.0), (0.1, 0.5)]
+    p_bnds  = [(0.0, .99), (0.0, 10.0), (0.0, 20.0), (0.0, 1.0)]
+    p_pbnds = [(0.1, 0.5), (0.5, 2.0), (0.5, 4.0), (0.1, 0.3)]
     n_param = len(p_names)
 
     def __init__(self, ) -> None:
@@ -42,7 +42,7 @@ class noisy_q_learning:
 
         """init the model to output the latent variable"""
 
-        Q = np.ones([2,])*50
+        Q = np.ones([2,])*.5
         return Q
 
 
@@ -130,6 +130,30 @@ class noisy_q_learning:
             p(Z_new|Z, a, r, theta). The update uses noisy Q leanring rule 
             Q_new = Q + alpha * (r - Q) + noise
             noise ~ N(0, sigma)
+        """
+        noise = np.array([
+            rng.normal(0.0, config.sigma),
+            rng.normal(0.0, config.sigma),
+        ])
+        Q_new = Q + config.alpha * (r_sampled - Q) + noise 
+        return Q_new 
+
+class noisy_q_learning_weber(noisy_q_learning):
+    name = "noisy_q_learning_weber"
+ 
+    @staticmethod
+    def update_latent(
+        Q: np.ndarray,
+        r_sampled: np.ndarray,
+        config: model_config,
+        rng: np.random.Generator,
+        ) -> np.ndarray:
+
+        """Update the latent variable based on the action and reward.
+        
+            p(Z_new|Z, a, r, theta). The update uses noisy Q leanring rule 
+            Q_new = Q + alpha * (r - Q) + noise
+            noise ~ N(0, sigma)
             sigma = |r_sampled - Q| * config.sigma
         """
         sigma = np.abs(r_sampled - Q) * config.sigma
@@ -187,6 +211,7 @@ def simulate(
         prb_data_new[t] = seg_data_new
     
     return prb_data_new
+
 
 
 def prb_data_to_dataframe(prb_data: dict) -> pd.DataFrame:

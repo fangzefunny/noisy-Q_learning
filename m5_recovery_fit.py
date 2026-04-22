@@ -10,22 +10,27 @@ from viz import viz
 viz.get_style()
 from utils.env_fn import *
 from utils.model import *
-from utils.fit import loss_ln_pf
+from utils.fit import loss_fn_pf
 
 pth = os.path.dirname(os.path.abspath(__file__))
-addpth = os.path.join(pth, "fits")
-if not os.path.exists(addpth): os.makedirs(addpth)
+os.chdir(pth)
 
 parser = argparse.ArgumentParser()
-parser = argparse.ArgumentParser(description='Test for argparse')
-parser.add_argument('--agent_name', '-n', help='choose agent', default='noisy_q_learning')
-parser.add_argument('--job_id',     '-j', help='job id', type=int, default=0)
-parser.add_argument('--seed',       '-s', help='random seed', type=int, default=420)
+parser = argparse.ArgumentParser(description="Fit the model to the data")
+parser.add_argument("--data_set",   "-d", help="choose data name", default="restless_bandit")
+parser.add_argument("--agent_name", "-n", help="choose agent", default="noisy_q_learning")
+parser.add_argument("--job_id",     "-j", help="job id", type=int, default=0)
+parser.add_argument("--seed",       "-s", help="random seed", type=int, default=420)
 args = parser.parse_args()
 agent  = eval(args.agent_name)
 
+dirs = [f"{pth}/fits", f"{pth}/fits/{args.data_set}", f"{pth}/fits/{args.data_set}/{args.agent_name}"]
+for d in dirs: 
+    if not os.path.exists(d): os.mkdir(d)
+
+
  ## get sub_id and fit sample 
-fname = f'{pth}/data/restless_bandit.pkl'
+fname = f'{pth}/data/{args.data_set}.pkl'
 with open(fname, "rb") as handle: data_for_fit = pickle.load(handle)
 # get sub_id and fit sample 
 n_sub = len(data_for_fit.keys())
@@ -39,7 +44,7 @@ print(f"Fitting parameter for subject {sub_id}, the {i_fit}th fit sample")
 
 # fit back the parameters 
 print("Start model fitting...", flush=True)
-target = lambda params: loss_ln_pf(
+target = lambda params: loss_fn_pf(
     sub_data, 
     agent, 
     params, 
@@ -49,7 +54,8 @@ lb =  np.array([bnd[0] for bnd in agent.p_bnds])
 ub =  np.array([bnd[1] for bnd in agent.p_bnds])
 plb = np.array([pbnd[0] for pbnd in agent.p_pbnds])
 pub = np.array([pbnd[1] for pbnd in agent.p_pbnds])
-param0 = plb + np.random.rand(len(agent.p_names)) * (pub - plb)
+rng = np.random.default_rng(args.seed+args.job_id)
+param0 = plb + rng.random(len(agent.p_names)) * (pub - plb)
 
 # set up bads optimizer 
 bads_opt = {
@@ -86,3 +92,6 @@ opt_params = final_result["param"]
 print(f"lowest loss: {opt_loss_val:.4f}, using {(end_time - start_time):.2f} seconds", flush=True)
 print(f"opt_params: {opt_params}", flush=True)
 
+# save the result
+fname = f'{pth}/fits/{args.data_set}/{args.agent_name}/fit_sub_info-{key}-mle-pf.pkl'
+with open(fname, 'wb')as handle: pickle.dump(final_result, handle)

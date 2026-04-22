@@ -99,7 +99,7 @@ sns.lineplot(data=prb_data_sim,
     ax=ax)
 ax.set_ylabel("Reward")
 ax.set_xlabel("Trial")
-ax.set_ylim([-5, 105])
+ax.set_ylim([-0.05, 1.05])
 ax.legend(loc="upper right", bbox_to_anchor=(1.6, 0.9))
 fig.tight_layout(rect=[0, 0, 0.6, 0.9])  
 fig.subplots_adjust(right=0.6)

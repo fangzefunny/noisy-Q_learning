@@ -30,7 +30,7 @@ prb_data = env.instan()
 
 # simulate the model 
 agent = noisy_q_learning
-params = [.2, .1, 8, .1]
+params = [.2, .6, 3, .1]
 seed = 1234
 n_prbs = 10
 sub_data = {}

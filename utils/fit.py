@@ -114,7 +114,7 @@ def estimate_nll_pf(
 
     return -ll 
 
-def loss_ln_pf(
+def loss_fn_pf(
     sub_data: dict,
     agent_cls,
     params: list,

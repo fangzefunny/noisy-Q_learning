@@ -66,10 +66,10 @@ class restless_bandit:
         )
         # generate reward [n_trials, 2]
         df ={
-            "r_mean_0": (r_means[:, 0]*100).astype(int),
-            "r_mean_1": (r_means[:, 1]*100).astype(int),
-            "r_sampled_0": (r_sampled[:, 0]*100).astype(int),
-            "r_sampled_1": (r_sampled[:, 1]*100).astype(int),
+            "r_mean_0": np.round(r_means[:, 0], 2),
+            "r_mean_1": np.round(r_means[:, 1], 2),
+            "r_sampled_0": np.round(r_sampled[:, 0], 2),
+            "r_sampled_1": np.round(r_sampled[:, 1], 2),
             "trial": np.arange(0, self.config.n_trials),
             "condition": self.config.condition,
             "stage": "train"
