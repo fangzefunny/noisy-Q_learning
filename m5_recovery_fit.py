@@ -30,7 +30,7 @@ for d in dirs:
 
 
  ## get sub_id and fit sample 
-fname = f'{pth}/data/{args.data_set}.pkl'
+fname = f"{pth}/data/{args.data_set}.pkl"
 with open(fname, "rb") as handle: data_for_fit = pickle.load(handle)
 # get sub_id and fit sample 
 n_sub = len(data_for_fit.keys())
@@ -59,8 +59,8 @@ param0 = plb + rng.random(len(agent.p_names)) * (pub - plb)
 
 # set up bads optimizer 
 bads_opt = {
-    'uncertainty_handling': True,
-    'noise_final_samples': 0,
+    "uncertainty_handling": True,
+    "noise_final_samples": 0,
 }
 start_caption = f"""
 Starting bads option with paramters:
@@ -93,5 +93,5 @@ print(f"lowest loss: {opt_loss_val:.4f}, using {(end_time - start_time):.2f} sec
 print(f"opt_params: {opt_params}", flush=True)
 
 # save the result
-fname = f'{pth}/fits/{args.data_set}/{args.agent_name}/fit_sub_info-{key}-mle-pf.pkl'
-with open(fname, 'wb')as handle: pickle.dump(final_result, handle)
+fname = f"{pth}/fits/{args.data_set}/{args.agent_name}/fit_sub_info-{key}-mle-pf.pkl"
+with open(fname, "wb") as handle: pickle.dump(final_result, handle)
