@@ -19,8 +19,8 @@ os.chdir(pth)
 
 parser = argparse.ArgumentParser()
 parser = argparse.ArgumentParser(description="Fit the model to the data")
-parser.add_argument("--data_set",   "-d", help="choose data name", default="restless_bandit-noisy_q_learning")
-parser.add_argument("--agent_name", "-n", help="choose agent", default="noisy_q_learning")
+parser.add_argument("--data_set",   "-d", help="choose data name", default="restless_bandit-noisy_q_learning_weber")
+parser.add_argument("--agent_name", "-n", help="choose agent", default="noisy_q_learning_weber")
 parser.add_argument("--job_id",     "-j", help="job id", type=int, default=0)
 parser.add_argument("--seed",       "-s", help="random seed", type=int, default=420)
 args = parser.parse_args()
@@ -91,7 +91,7 @@ for i, p_name in enumerate(["alpha", "eta", "beta", "sigma"]):
     axs[i].set_box_aspect(1)
 fig.tight_layout()
 
-plt.savefig("figures/fig3_recovery_visualize.pdf", dpi=300)
+plt.savefig(f"figures/fig3_recovery_visualize-{args.agent_name}.pdf", dpi=300)
 
 
 

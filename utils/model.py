@@ -140,8 +140,8 @@ class noisy_q_learning:
 
 class noisy_q_learning_weber(noisy_q_learning):
     name = "noisy_q_learning_weber"
-    p_bnds  = [(0.0, .99), (0.0, 10.0), (0.0, 20.0), (0.0, 0.5)]
-    p_pbnds = [(0.1, 0.5), (0.5, 2.0), (0.5, 4.0), (0.1, 0.2)]
+    p_bnds  = [(0.0, .99), (0.0, 10.0), (0.0, 20.0), (0.0, 0.1)]
+    p_pbnds = [(0.1, 0.5), (0.5, 2.0), (0.5, 4.0), (0.01, 0.05)]
  
     @staticmethod
     def update_latent(
