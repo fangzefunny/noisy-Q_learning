@@ -4,6 +4,6 @@ results/
 backup/
 data/
 fits/
-notes/*
+notes
 !notes/particle_filter_likelihood.md
 .DS_Store
